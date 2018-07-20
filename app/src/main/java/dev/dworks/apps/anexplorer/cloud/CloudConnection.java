@@ -25,13 +25,13 @@ import dev.dworks.apps.anexplorer.provider.CloudStorageProvider;
 import dev.dworks.apps.anexplorer.provider.ExplorerProvider;
 import dev.dworks.apps.anexplorer.provider.NetworkStorageProvider;
 
-import static dev.dworks.apps.anexplorer.BuildConfig.BOX_CLIENT_ID;
-import static dev.dworks.apps.anexplorer.BuildConfig.BOX_CLIENT_KEY;
-import static dev.dworks.apps.anexplorer.BuildConfig.DROPBOX_CLIENT_ID;
-import static dev.dworks.apps.anexplorer.BuildConfig.DROPBOX_CLIENT_KEY;
-import static dev.dworks.apps.anexplorer.BuildConfig.GOOGLE_DRIVE_CLIENT_ID;
-import static dev.dworks.apps.anexplorer.BuildConfig.ONEDRIVE_CLIENT_ID;
-import static dev.dworks.apps.anexplorer.BuildConfig.ONEDRIVE_CLIENT_KEY;
+//import static dev.dworks.apps.anexplorer.BuildConfig.BOX_CLIENT_ID;
+//import static dev.dworks.apps.anexplorer.BuildConfig.BOX_CLIENT_KEY;
+//import static dev.dworks.apps.anexplorer.BuildConfig.DROPBOX_CLIENT_ID;
+//import static dev.dworks.apps.anexplorer.BuildConfig.DROPBOX_CLIENT_KEY;
+//import static dev.dworks.apps.anexplorer.BuildConfig.GOOGLE_DRIVE_CLIENT_ID;
+//import static dev.dworks.apps.anexplorer.BuildConfig.ONEDRIVE_CLIENT_ID;
+//import static dev.dworks.apps.anexplorer.BuildConfig.ONEDRIVE_CLIENT_KEY;
 import static dev.dworks.apps.anexplorer.model.DocumentInfo.getCursorInt;
 import static dev.dworks.apps.anexplorer.model.DocumentInfo.getCursorString;
 import static dev.dworks.apps.anexplorer.provider.CloudStorageProvider.TYPE_BOX;
@@ -71,7 +71,7 @@ public class CloudConnection {
         String result = getCursorString(cursor, ExplorerProvider.ConnectionColumns.PASSWORD);
         String path = getCursorString(cursor, ExplorerProvider.ConnectionColumns.PATH);
         String type = getCursorString(cursor, ExplorerProvider.ConnectionColumns.TYPE);
-        CloudRail.setAppKey(BuildConfig.LICENSE_KEY);
+//        CloudRail.setAppKey(BuildConfig.LICENSE_KEY);
 
         String clientId = CloudConnection.getCloudStorageId(type, id);
         CloudConnection cloudConnection = new CloudConnection(createCloudStorage(context, type), type, path, clientId);
@@ -91,17 +91,17 @@ public class CloudConnection {
     public static CloudStorage createCloudStorage(Context context, String type) {
         CloudStorage cloudStorage = null;
 
-        if (type.equals(TYPE_GDRIVE)) {
-            cloudStorage = new GoogleDrive(context, GOOGLE_DRIVE_CLIENT_ID, "",
-                    GOOGLE_DRIVE_REDIRECT_URI, "");
-        } else if (type.equals(TYPE_DROPBOX)) {
-            cloudStorage = new Dropbox(context, DROPBOX_CLIENT_ID, DROPBOX_CLIENT_KEY,
-                    DROPBOX_REDIRECT_URI, "");
-        } else if (type.equals(TYPE_ONEDRIVE)) {
-            cloudStorage = new OneDrive(context, ONEDRIVE_CLIENT_ID, ONEDRIVE_CLIENT_KEY);
-        } else if (type.equals(TYPE_BOX)) {
-            cloudStorage = new Box(context, BOX_CLIENT_ID, BOX_CLIENT_KEY);
-        }
+//        if (type.equals(TYPE_GDRIVE)) {
+//            cloudStorage = new GoogleDrive(context, GOOGLE_DRIVE_CLIENT_ID, "",
+//                    GOOGLE_DRIVE_REDIRECT_URI, "");
+//        } else if (type.equals(TYPE_DROPBOX)) {
+//            cloudStorage = new Dropbox(context, DROPBOX_CLIENT_ID, DROPBOX_CLIENT_KEY,
+//                    DROPBOX_REDIRECT_URI, "");
+//        } else if (type.equals(TYPE_ONEDRIVE)) {
+//            cloudStorage = new OneDrive(context, ONEDRIVE_CLIENT_ID, ONEDRIVE_CLIENT_KEY);
+//        } else if (type.equals(TYPE_BOX)) {
+//            cloudStorage = new Box(context, BOX_CLIENT_ID, BOX_CLIENT_KEY);
+//        }
 
         return cloudStorage;
     }

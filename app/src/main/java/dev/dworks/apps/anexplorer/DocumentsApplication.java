@@ -97,7 +97,7 @@ public class DocumentsApplication extends AppFlavour {
         sInstance = this;
         final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         final int memoryClassBytes = am.getMemoryClass() * 1024 * 1024;
-        CloudRail.setAppKey(BuildConfig.LICENSE_KEY);
+//        CloudRail.setAppKey(BuildConfig.LICENSE_KEY);
         CrashReportingManager.enable(getApplicationContext(), true);
 
         mRoots = new RootsCache(this);

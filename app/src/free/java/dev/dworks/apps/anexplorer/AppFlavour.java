@@ -141,8 +141,8 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 			return null;
 		}
 		if(null == bp) {
-			bp = BillingProcessor.newBillingProcessor(this,
-					BuildConfig.PLAYSTORE_LICENSE_KEY, BuildConfig.MERCHANT_ID, this);
+//			bp = BillingProcessor.newBillingProcessor(this,
+//					BuildConfig.PLAYSTORE_LICENSE_KEY, BuildConfig.MERCHANT_ID, this);
 		}
 		if(!bp.isInitialized()) {
 			bp.initialize();
@@ -167,7 +167,7 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 	public void purchase(Activity activity, String productId){
 		if(isBillingSupported()) {
 			currentProductId = productId;
-			getBillingProcessor().subscribe(activity, productId);
+//			getBillingProcessor().subscribe(activity, productId);
 		} else {
 			Toast.makeText(activity, "Billing not supported", Toast.LENGTH_SHORT).show();
 		}
