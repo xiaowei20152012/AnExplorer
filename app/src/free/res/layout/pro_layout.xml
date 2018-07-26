@@ -10,7 +10,7 @@
         android:layout_height="3dp"
         android:background="@drawable/shadow_top" />
 
-    <dev.dworks.apps.anexplorer.ui.ProWrapper
+    <com.fast.explorer.ui.ProWrapper
         android:id="@+id/proWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -27,7 +27,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import dev.dworks.apps.anexplorer.model.DocumentsContract;
+import com.fast.explorer.model.DocumentsContract;
 
 class DocumentsContractCompat {
     private static final String TAG = "DocumentsContractCompat";

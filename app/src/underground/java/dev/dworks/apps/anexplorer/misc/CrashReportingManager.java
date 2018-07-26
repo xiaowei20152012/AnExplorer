@@ -1,4 +1,4 @@
-package dev.dworks.apps.anexplorer.misc;
+package com.fast.explorer.misc;
 
 import android.content.Context;
 

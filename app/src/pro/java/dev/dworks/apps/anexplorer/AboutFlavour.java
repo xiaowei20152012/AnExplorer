@@ -1,4 +1,4 @@
-package dev.dworks.apps.anexplorer;
+package com.fast.explorer.anexplorer;
 
 public abstract class AboutFlavour extends ActionBarActivity {
 

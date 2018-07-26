@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import dev.dworks.apps.anexplorer.model.DocumentsContract;
-import dev.dworks.apps.anexplorer.provider.UsbStorageProvider;
+import com.fast.explorer.model.DocumentsContract;
+import com.fast.explorer.provider.UsbStorageProvider;
 
 
 /**

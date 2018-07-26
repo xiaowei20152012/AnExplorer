@@ -25,7 +25,7 @@ import android.view.View;
 
 import java.util.List;
 
-import dev.dworks.apps.anexplorer.ui.fabs.FabSpeedDial;
+import com.fast.explorer.ui.fabs.FabSpeedDial;
 
 import static android.view.View.VISIBLE;
 

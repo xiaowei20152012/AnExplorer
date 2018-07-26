@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.dworks.apps.anexplorer.misc;
+package com.fast.explorer.misc;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
 import dev.dworks.apps.anexplorer.BuildConfig;
-import dev.dworks.apps.anexplorer.model.RootInfo;
+import com.fast.explorer.model.RootInfo;
 
 public class AnalyticsManager {
     private static Context sAppContext = null;
