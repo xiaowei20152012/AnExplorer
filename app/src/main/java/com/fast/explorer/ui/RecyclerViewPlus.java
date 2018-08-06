@@ -40,13 +40,13 @@ public class RecyclerViewPlus extends RecyclerView {
         setType(mType);
     }
 
-    public void setType(int type){
+    public void setType(int type) {
         mType = type;
         updateLayoutManager();
     }
 
-    private void updateLayoutManager(){
-        switch (mType){
+    private void updateLayoutManager() {
+        switch (mType) {
             case TYPE_LIST:
                 layoutManager =
                         new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -71,14 +71,15 @@ public class RecyclerViewPlus extends RecyclerView {
     protected void onMeasure(int widthSpec, int heightSpec) {
         super.onMeasure(widthSpec, heightSpec);
 
-        switch (mType){
+        switch (mType) {
             case TYPE_GRID:
                 if (columnWidth > 0) {
                     //The spanCount will always be at least 1
                     int spanCount = Math.max(1, getMeasuredWidth() / columnWidth);
-                    ((GridLayoutManager)layoutManager).setSpanCount(spanCount);
+                    ((GridLayoutManager) layoutManager).setSpanCount(spanCount);
                 }
                 break;
+            default:
         }
     }
 

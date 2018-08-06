@@ -43,8 +43,8 @@ public class CloudConnection {
     private static final String TAG = NetworkConnection.class.getSimpleName();
     private static final String ROOT = "/";
 
-    public final static String GOOGLE_DRIVE_REDIRECT_URI = BuildConfig.APPLICATION_ID+":/oauth2redirect";
-    public final static String DROPBOX_REDIRECT_URI = "https://auth.cloudrail.com/"+BuildConfig.APPLICATION_ID;
+    public final static String GOOGLE_DRIVE_REDIRECT_URI = BuildConfig.APPLICATION_ID + ":/oauth2redirect";
+    public final static String DROPBOX_REDIRECT_URI = "https://auth.cloudrail.com/" + BuildConfig.APPLICATION_ID;
 
     public CloudStorage cloudStorage;
     public CloudFile file;
@@ -54,7 +54,7 @@ public class CloudConnection {
     public boolean isLoggedIn = false;
     public String clientId;
 
-    public CloudConnection(CloudStorage cloudStorage, String name, String path, String id){
+    public CloudConnection(CloudStorage cloudStorage, String name, String path, String id) {
         this.cloudStorage = cloudStorage;
         this.path = path;
         this.file = new CloudFile(path, id);
@@ -62,7 +62,7 @@ public class CloudConnection {
         this.clientId = id;
     }
 
-    public static CloudConnection fromCursor(Context context, Cursor cursor){
+    public static CloudConnection fromCursor(Context context, Cursor cursor) {
         int id = getCursorInt(cursor, BaseColumns._ID);
         String name = getCursorString(cursor, ExplorerProvider.ConnectionColumns.NAME);
         String username = getCursorString(cursor, ExplorerProvider.ConnectionColumns.USERNAME);
@@ -80,7 +80,7 @@ public class CloudConnection {
         return cloudConnection;
     }
 
-    public static CloudConnection createCloudConnections(Context context, String type){
+    public static CloudConnection createCloudConnections(Context context, String type) {
         CloudConnection cloudConnection = new CloudConnection(createCloudStorage(context, type), getTypeName(type), "/", "");
         cloudConnection.load(context, "");
         return cloudConnection;
@@ -104,7 +104,7 @@ public class CloudConnection {
         return cloudStorage;
     }
 
-    public void prepare(){
+    public void prepare() {
         this.name = cloudStorage.getUserName();
         this.username = cloudStorage.getUserLogin();
     }
@@ -121,25 +121,27 @@ public class CloudConnection {
         return isLoggedIn;
     }
 
-    public String getType(){
+    public String getType() {
         if (cloudStorage instanceof GoogleDrive) {
             return TYPE_GDRIVE;
         } else if (cloudStorage instanceof Dropbox) {
             return TYPE_DROPBOX;
-        } if (cloudStorage instanceof OneDrive) {
+        }
+        if (cloudStorage instanceof OneDrive) {
             return TYPE_ONEDRIVE;
-        } if (cloudStorage instanceof Box) {
+        }
+        if (cloudStorage instanceof Box) {
             return TYPE_BOX;
         } else {
             return TYPE_CLOUD;
         }
     }
 
-    public String getTypeName(){
+    public String getTypeName() {
         return getTypeName(getType());
     }
 
-    public static String getTypeName(String type){
+    public static String getTypeName(String type) {
         if (type.equals(TYPE_GDRIVE)) {
             return "Google Drive";
         } else if (type.equals(TYPE_DROPBOX)) {
@@ -163,8 +165,8 @@ public class CloudConnection {
         cloudStorage.login();
     }
 
-    public boolean load(Context context, String result){
-        if(!TextUtils.isEmpty(result)){
+    public boolean load(Context context, String result) {
+        if (!TextUtils.isEmpty(result)) {
             try {
                 cloudStorage.loadAsString(result);
                 isLoggedIn = true;
@@ -210,8 +212,8 @@ public class CloudConnection {
         protected void onPostExecute(Boolean result) {
             if (result) {
                 RootsCache.updateRoots(mActivity, CloudStorageProvider.AUTHORITY);
-                ConnectionsFragment connectionsFragment = ConnectionsFragment.get(mActivity.getFragmentManager());
-                if(null != connectionsFragment){
+                ConnectionsFragment connectionsFragment = ConnectionsFragment.get(mActivity.getSupportFragmentManager());
+                if (null != connectionsFragment) {
                     connectionsFragment.reload();
                     connectionsFragment.openConnectionRoot(mCloudConnection);
                 }
@@ -219,7 +221,7 @@ public class CloudConnection {
         }
     }
 
-    public static String getCloudStorageId(String type, int id){
-        return type+"_"+id;
+    public static String getCloudStorageId(String type, int id) {
+        return type + "_" + id;
     }
 }

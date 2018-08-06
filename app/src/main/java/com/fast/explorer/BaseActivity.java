@@ -16,7 +16,7 @@
 package com.fast.explorer;
 
 import android.Manifest;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;

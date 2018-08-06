@@ -20,8 +20,8 @@ package com.fast.explorer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ComponentName;
@@ -266,19 +266,19 @@ public class DocumentsActivity extends BaseActivity {
         if (mState.action == State.ACTION_CREATE) {
             final String mimeType = getIntent().getType();
             final String title = getIntent().getStringExtra(IntentUtils.EXTRA_TITLE);
-            SaveFragment.show(getFragmentManager(), mimeType, title);
+            SaveFragment.show(getSupportFragmentManager(), mimeType, title);
         } else if (mState.action == State.ACTION_OPEN_TREE) {
-            PickFragment.show(getFragmentManager());
+            PickFragment.show(getSupportFragmentManager());
         }
 
         if (mState.action == State.ACTION_BROWSE) {
             final Intent moreApps = new Intent(getIntent());
             moreApps.setComponent(null);
             moreApps.setPackage(null);
-            RootsFragment.show(getFragmentManager(), moreApps);
+            RootsFragment.show(getSupportFragmentManager(), moreApps);
         } else if (mState.action == State.ACTION_OPEN || mState.action == State.ACTION_CREATE
                 || mState.action == State.ACTION_GET_CONTENT || mState.action == State.ACTION_OPEN_TREE) {
-            RootsFragment.show(getFragmentManager(), new Intent());
+            RootsFragment.show(getSupportFragmentManager(), new Intent());
         }
 
         if (!mState.restored) {
@@ -350,7 +350,7 @@ public class DocumentsActivity extends BaseActivity {
                     mRoots.updateAsync();
                     final RootInfo root = getCurrentRoot();
                     if(root.isHome()){
-                        HomeFragment homeFragment = HomeFragment.get(getFragmentManager());
+                        HomeFragment homeFragment = HomeFragment.get(getSupportFragmentManager());
                         if(null != homeFragment) {
                             homeFragment.reloadData();
                         }
@@ -413,7 +413,7 @@ public class DocumentsActivity extends BaseActivity {
         PINDialogFragment pinFragment = new PINDialogFragment();
         pinFragment.setDialog(d);
         pinFragment.setCancelable(false);
-        pinFragment.show(getFragmentManager(), "PIN Dialog");
+        pinFragment.show(getSupportFragmentManager(), "PIN Dialog");
 	}
 
 
@@ -814,7 +814,7 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     public void updateMenuItems(Menu menu){
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 
@@ -1007,7 +1007,7 @@ public class DocumentsActivity extends BaseActivity {
      */
     private void setUserSortOrder(int sortOrder) {
         mState.userSortOrder = sortOrder;
-        Fragment fragment = DirectoryFragment.get(getFragmentManager());
+        Fragment fragment = DirectoryFragment.get(getSupportFragmentManager());
         if(fragment instanceof DirectoryFragment) {
             final DirectoryFragment directory = (DirectoryFragment) fragment;
             if (directory != null) {
@@ -1021,7 +1021,7 @@ public class DocumentsActivity extends BaseActivity {
      */
     private void setUserMode(int mode) {
         mState.userMode = mode;
-        Fragment fragment = DirectoryFragment.get(getFragmentManager());
+        Fragment fragment = DirectoryFragment.get(getSupportFragmentManager());
         if(fragment instanceof DirectoryFragment) {
             final DirectoryFragment directory = (DirectoryFragment) fragment;
             if (directory != null) {
@@ -1034,7 +1034,7 @@ public class DocumentsActivity extends BaseActivity {
      * refresh Data currently shown
      */
     private void refreshData() {
-        Fragment fragment = DirectoryFragment.get(getFragmentManager());
+        Fragment fragment = DirectoryFragment.get(getSupportFragmentManager());
         if(fragment instanceof DirectoryFragment) {
             final DirectoryFragment directory = (DirectoryFragment) fragment;
             if (directory != null) {
@@ -1045,7 +1045,7 @@ public class DocumentsActivity extends BaseActivity {
 
 
     public void setPending(boolean pending) {
-        final SaveFragment save = SaveFragment.get(getFragmentManager());
+        final SaveFragment save = SaveFragment.get(getSupportFragmentManager());
         if (save != null) {
             save.setPending(pending);
         }
@@ -1248,7 +1248,7 @@ public class DocumentsActivity extends BaseActivity {
         if(!Utils.isActivityAlive(DocumentsActivity.this)){
             return;
         }
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         DocumentInfo cwd = getCurrentDirectory();
 
@@ -1521,7 +1521,7 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     public void onDocumentPicked(DocumentInfo doc) {
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         if (doc.isDirectory() || DocumentArchiveHelper.isSupportedArchiveType(doc.mimeType)) {
             mState.stack.push(doc);
             mState.stackTouched = true;
@@ -1856,14 +1856,14 @@ public class DocumentsActivity extends BaseActivity {
                     showError(com.fast.explorer.R.string.save_error);
                 //}
             }
-            MoveFragment.hide(getFragmentManager());
+            MoveFragment.hide(getSupportFragmentManager());
             setMovePending(false);
             refreshData();
         }
     }
 
     public void setMovePending(boolean pending) {
-        final MoveFragment move = MoveFragment.get(getFragmentManager());
+        final MoveFragment move = MoveFragment.get(getSupportFragmentManager());
         if (move != null) {
             move.setPending(pending);
         }

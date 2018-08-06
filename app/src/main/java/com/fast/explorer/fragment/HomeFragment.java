@@ -18,10 +18,12 @@
 package com.fast.explorer.fragment;
 
 import android.app.ActivityManager;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.LoaderManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,11 +38,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.fast.explorer.BaseActivity;
 import com.fast.explorer.DocumentsActivity;
@@ -64,6 +61,9 @@ import com.fast.explorer.provider.AppsProvider;
 import com.fast.explorer.setting.SettingsActivity;
 import com.fast.explorer.ui.HomeItem;
 import com.fast.explorer.ui.MaterialProgressDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.fast.explorer.BaseActivity.State.MODE_GRID;
 import static com.fast.explorer.DocumentsApplication.isTelevision;
@@ -300,14 +300,21 @@ public class HomeFragment extends Fragment {
         final BaseActivity.State state = getDisplayState(this);
         mCallbacks = new LoaderManager.LoaderCallbacks<DirectoryResult>() {
 
+//            @Override
+//            public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
+//                final RootsCache roots = DocumentsApplication.getRootsCache(getActivity());
+//                return new RecentLoader(getActivity(), roots, state);
+//            }
+
+            @NonNull
             @Override
-            public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
+            public android.support.v4.content.Loader<DirectoryResult> onCreateLoader(int id, @Nullable Bundle args) {
                 final RootsCache roots = DocumentsApplication.getRootsCache(getActivity());
                 return new RecentLoader(getActivity(), roots, state);
             }
 
             @Override
-            public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
+            public void onLoadFinished(@NonNull android.support.v4.content.Loader<DirectoryResult> loader, DirectoryResult result) {
                 if (!isAdded()) {
                     return;
                 }
@@ -320,9 +327,28 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onLoaderReset(Loader<DirectoryResult> loader) {
+            public void onLoaderReset(@NonNull android.support.v4.content.Loader<DirectoryResult> loader) {
                 mRecentsAdapter.swapCursor(null);
+
             }
+
+//            @Override
+//            public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
+//                if (!isAdded()) {
+//                    return;
+//                }
+//                if (null == result.cursor || (null != result.cursor && result.cursor.getCount() == 0)) {
+//                    recents_container.setVisibility(View.GONE);
+//                } else {
+//                    //recents_container.setVisibility(View.VISIBLE);
+//                    mRecentsAdapter.swapCursor(new LimitCursorWrapper(result.cursor, MAX_RECENT_COUNT));
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<DirectoryResult> loader) {
+//                mRecentsAdapter.swapCursor(null);
+//            }
         };
         getLoaderManager().restartLoader(mLoaderId, null, mCallbacks);
     }
@@ -387,26 +413,18 @@ public class HomeFragment extends Fragment {
         try {
             final double percent = (((root.totalBytes - root.availableBytes) / (double) root.totalBytes) * 100);
             item.setProgress(0);
-//            timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
             if (Utils.isActivityAlive(getActivity())) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (item.getProgress() >= (int) percent) {
-//                            timer.cancel();
                             item.setProgress((int) percent);
                         } else {
                             item.setProgress((int) percent);
-//                            item.setProgress(item.getProgress() + 1);
                         }
                     }
                 });
             }
-//                }
-//            }, 50, 20);
-//        }
         } catch (Exception e) {
             item.setVisibility(View.GONE);
             CrashReportingManager.logException(e);

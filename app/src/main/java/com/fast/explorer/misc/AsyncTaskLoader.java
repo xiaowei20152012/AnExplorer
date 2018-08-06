@@ -19,7 +19,7 @@ package com.fast.explorer.misc;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Loader;
+import android.support.v4.content.Loader;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
