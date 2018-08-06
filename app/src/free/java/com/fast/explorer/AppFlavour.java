@@ -174,7 +174,7 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 	}
 
 	public static void openPurchaseActivity(Context context){
-		context.startActivity(new Intent(context, PurchaseActivity.class));
+//		context.startActivity(new Intent(context, PurchaseActivity.class));
 
 	}
 }
