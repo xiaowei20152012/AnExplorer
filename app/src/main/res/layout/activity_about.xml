@@ -90,7 +90,7 @@
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:drawableStart="@drawable/ic_support" />
 
                 <com.fast.explorer.ui.CompatTextView
@@ -128,7 +128,7 @@
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:drawableStart="@drawable/ic_share" />
 
                 <com.fast.explorer.ui.CompatTextView

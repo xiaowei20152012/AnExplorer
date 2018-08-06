@@ -80,10 +80,6 @@ public class HomeFragment extends Fragment {
     private final int mLoaderId = 42;
     private HomeItem storageStats;
     private HomeItem memoryStats;
-    private Timer storageTimer;
-    private Timer secondatyStorageTimer;
-    private Timer usbStorageTimer;
-    private Timer processTimer;
     private RootsCache roots;
     private RecyclerView mRecentsRecycler;
     private RecyclerView mShortcutsRecycler;
@@ -118,10 +114,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        storageTimer = new Timer();
-        secondatyStorageTimer = new Timer();
-        usbStorageTimer = new Timer();
-        processTimer = new Timer();
         storageStats = (HomeItem) view.findViewById(R.id.storage_stats);
         secondayStorageStats = (HomeItem) view.findViewById(R.id.seconday_storage_stats);
         usbStorageStats = (HomeItem) view.findViewById(R.id.usb_storage_stats);
@@ -202,8 +194,7 @@ public class HomeFragment extends Fragment {
                     openRoot(primaryRoot);
                 }
             });
-            storageTimer = new Timer();
-            animateProgress(storageStats, storageTimer, primaryRoot);
+            animateProgress(storageStats, primaryRoot);
         } else {
             storageStats.setVisibility(View.GONE);
         }
@@ -221,8 +212,7 @@ public class HomeFragment extends Fragment {
                     openRoot(secondaryRoot);
                 }
             });
-            secondatyStorageTimer = new Timer();
-            animateProgress(secondayStorageStats, secondatyStorageTimer, secondaryRoot);
+            animateProgress(secondayStorageStats, secondaryRoot);
         } else {
             secondayStorageStats.setVisibility(View.GONE);
         }
@@ -237,8 +227,7 @@ public class HomeFragment extends Fragment {
                     openRoot(usbRoot);
                 }
             });
-            usbStorageTimer = new Timer();
-            animateProgress(usbStorageStats, usbStorageTimer, usbRoot);
+            animateProgress(usbStorageStats, usbRoot);
         } else {
             usbStorageStats.setVisibility(View.GONE);
         }
@@ -272,8 +261,7 @@ public class HomeFragment extends Fragment {
                 ((DocumentsActivity) getActivity()).showInfo(summaryText);
             }
 
-            processTimer = new Timer();
-            animateProgress(memoryStats, processTimer, processRoot);
+            animateProgress(memoryStats, processRoot);
         }
     }
 
@@ -320,8 +308,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-                if (!isAdded())
+                if (!isAdded()) {
                     return;
+                }
                 if (null == result.cursor || (null != result.cursor && result.cursor.getCount() == 0)) {
                     recents_container.setVisibility(View.GONE);
                 } else {
@@ -341,10 +330,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        storageTimer.cancel();
-        secondatyStorageTimer.cancel();
-        usbStorageTimer.cancel();
-        processTimer.cancel();
     }
 
     private class OperationTask extends AsyncTask<Void, Void, Boolean> {
@@ -398,7 +383,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void animateProgress(final HomeItem item, final Timer timer, RootInfo root) {
+    private void animateProgress(final HomeItem item, RootInfo root) {
         try {
             final double percent = (((root.totalBytes - root.availableBytes) / (double) root.totalBytes) * 100);
             item.setProgress(0);

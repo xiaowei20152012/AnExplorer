@@ -39,147 +39,147 @@ import static com.fast.explorer.misc.Utils.openPlaystore;
 
 public class AboutActivity extends AboutFlavour implements View.OnClickListener {
 
-	public static final String TAG = "About";
+    public static final String TAG = "About";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if(Utils.hasKitKat() && !Utils.hasLollipop()){
-			setTheme(com.fast.explorer.R.style.DocumentsTheme_Translucent);
-		}
-		setContentView(com.fast.explorer.R.layout.activity_about);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Utils.hasKitKat() && !Utils.hasLollipop()) {
+            setTheme(com.fast.explorer.R.style.DocumentsTheme_Translucent);
+        }
+        setContentView(com.fast.explorer.R.layout.activity_about);
 
-		Toolbar mToolbar = (Toolbar) findViewById(com.fast.explorer.R.id.toolbar);
-		mToolbar.setTitleTextAppearance(this, com.fast.explorer.R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
-		if(Utils.hasKitKat() && !Utils.hasLollipop()) {
-			//((LinearLayout.LayoutParams) mToolbar.getLayoutParams()).setMargins(0, getStatusBarHeight(this), 0, 0);
-			mToolbar.setPadding(0, DocumentsActivity.getStatusBarHeight(this), 0, 0);
-		}
-		int color = SettingsActivity.getPrimaryColor();
-		mToolbar.setBackgroundColor(color);
-		setSupportActionBar(mToolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(null);
-		setUpDefaultStatusBar();
-		initAd();
-		initControls();
-	}
+        Toolbar mToolbar = (Toolbar) findViewById(com.fast.explorer.R.id.toolbar);
+        mToolbar.setTitleTextAppearance(this, com.fast.explorer.R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+        if (Utils.hasKitKat() && !Utils.hasLollipop()) {
+            //((LinearLayout.LayoutParams) mToolbar.getLayoutParams()).setMargins(0, getStatusBarHeight(this), 0, 0);
+            mToolbar.setPadding(0, DocumentsActivity.getStatusBarHeight(this), 0, 0);
+        }
+        int color = SettingsActivity.getPrimaryColor();
+        mToolbar.setBackgroundColor(color);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(null);
+        setUpDefaultStatusBar();
+        initAd();
+        initControls();
+    }
 
-	@Override
-	public String getTag() {
-		return TAG;
-	}
+    @Override
+    public String getTag() {
+        return TAG;
+    }
 
-	private void initControls() {
+    private void initControls() {
 
-		int accentColor = ColorUtils.getTextColorForBackground(SettingsActivity.getPrimaryColor());
-		TextView logo = (TextView)findViewById(com.fast.explorer.R.id.logo);
-		logo.setTextColor(accentColor);
-		String header = logo.getText() + getSuffix() + " v" + BuildConfig.VERSION_NAME + (BuildConfig.DEBUG ? " Debug" : "");
-		logo.setText(header);
+        int accentColor = ColorUtils.getTextColorForBackground(SettingsActivity.getPrimaryColor());
+        TextView logo = (TextView) findViewById(com.fast.explorer.R.id.logo);
+        logo.setTextColor(accentColor);
+        String header = logo.getText() + getSuffix() + " v" + BuildConfig.VERSION_NAME + (BuildConfig.DEBUG ? " Debug" : "");
+        logo.setText(header);
 
-		TextView action_rate = (TextView)findViewById(com.fast.explorer.R.id.action_rate);
-		TextView action_support = (TextView)findViewById(com.fast.explorer.R.id.action_support);
-		TextView action_share = (TextView)findViewById(com.fast.explorer.R.id.action_share);
-		TextView action_feedback = (TextView)findViewById(com.fast.explorer.R.id.action_feedback);
-		TextView action_sponsor = (TextView)findViewById(com.fast.explorer.R.id.action_sponsor);
+        TextView action_rate = (TextView) findViewById(com.fast.explorer.R.id.action_rate);
+        TextView action_support = (TextView) findViewById(com.fast.explorer.R.id.action_support);
+        TextView action_share = (TextView) findViewById(com.fast.explorer.R.id.action_share);
+        TextView action_feedback = (TextView) findViewById(com.fast.explorer.R.id.action_feedback);
+        TextView action_sponsor = (TextView) findViewById(com.fast.explorer.R.id.action_sponsor);
 
-		action_rate.setOnClickListener(this);
-		action_support.setOnClickListener(this);
-		action_share.setOnClickListener(this);
-		action_feedback.setOnClickListener(this);
-		action_sponsor.setOnClickListener(this);
+        action_rate.setOnClickListener(this);
+        action_support.setOnClickListener(this);
+        action_share.setOnClickListener(this);
+        action_feedback.setOnClickListener(this);
+        action_sponsor.setOnClickListener(this);
 
-		if(Utils.isOtherBuild()){
-			action_rate.setVisibility(View.GONE);
-			action_support.setVisibility(View.GONE);
-		} else if(DocumentsApplication.isTelevision()){
-			action_share.setVisibility(View.GONE);
-			action_feedback.setVisibility(View.GONE);
-		}
+        if (Utils.isOtherBuild()) {
+            action_rate.setVisibility(View.GONE);
+            action_support.setVisibility(View.GONE);
+        } else if (DocumentsApplication.isTelevision()) {
+            action_share.setVisibility(View.GONE);
+            action_feedback.setVisibility(View.GONE);
+        }
 
-		if(!DocumentsApplication.isPurchased()){
-			action_sponsor.setVisibility(View.VISIBLE);
-		}
-	}
+        if (!DocumentsApplication.isPurchased()) {
+            action_sponsor.setVisibility(View.GONE);
+        }
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void startActivity(Intent intent) {
-        if(Utils.isIntentAvailable(this, intent)) {
+        if (Utils.isIntentAvailable(this, intent)) {
             super.startActivity(intent);
         }
     }
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case com.fast.explorer.R.id.action_github:
-				startActivity(new Intent("android.intent.action.VIEW",
-						Uri.parse("https://github.com/DWorkS")));
-				break;
-			case com.fast.explorer.R.id.action_gplus:
-				startActivity(new Intent("android.intent.action.VIEW",
-						Uri.parse("https://plus.google.com/+HariKrishnaDulipudi")));
-				break;
-			case com.fast.explorer.R.id.action_twitter:
-				startActivity(new Intent("android.intent.action.VIEW",
-						Uri.parse("https://twitter.com/1HaKr")));
-				break;
-			case com.fast.explorer.R.id.action_feedback:
-				openFeedback(this);
-				break;
-			case com.fast.explorer.R.id.action_rate:
-				openPlaystore(this);
-				AnalyticsManager.logEvent("app_rate");
-				break;
-			case com.fast.explorer.R.id.action_sponsor:
-				showAd();
-				AnalyticsManager.logEvent("app_sponsor");
-				break;
-			case com.fast.explorer.R.id.action_support:
-				if(Utils.isProVersion()){
-					Intent intentMarketAll = new Intent("android.intent.action.VIEW");
-					intentMarketAll.setData(Utils.getAppProStoreUri());
-					startActivity(intentMarketAll);
-				} else {
-					DocumentsApplication.openPurchaseActivity(this);
-				}
-				AnalyticsManager.logEvent("app_love");
-				break;
-			case com.fast.explorer.R.id.action_share:
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case com.fast.explorer.R.id.action_github:
+                startActivity(new Intent("android.intent.action.VIEW",
+                        Uri.parse("https://github.com/DWorkS")));
+                break;
+            case com.fast.explorer.R.id.action_gplus:
+                startActivity(new Intent("android.intent.action.VIEW",
+                        Uri.parse("https://plus.google.com/+HariKrishnaDulipudi")));
+                break;
+            case com.fast.explorer.R.id.action_twitter:
+                startActivity(new Intent("android.intent.action.VIEW",
+                        Uri.parse("https://twitter.com/1HaKr")));
+                break;
+            case com.fast.explorer.R.id.action_feedback:
+                openFeedback(this);
+                break;
+            case com.fast.explorer.R.id.action_rate:
+                openPlaystore(this);
+                AnalyticsManager.logEvent("app_rate");
+                break;
+            case com.fast.explorer.R.id.action_sponsor:
+                showAd();
+                AnalyticsManager.logEvent("app_sponsor");
+                break;
+            case com.fast.explorer.R.id.action_support:
+                if (Utils.isProVersion()) {
+                    Intent intentMarketAll = new Intent("android.intent.action.VIEW");
+                    intentMarketAll.setData(Utils.getAppProStoreUri());
+                    startActivity(intentMarketAll);
+                } else {
+                    DocumentsApplication.openPurchaseActivity(this);
+                }
+                AnalyticsManager.logEvent("app_love");
+                break;
+            case com.fast.explorer.R.id.action_share:
 
-				String shareText = "I found this file mananger very useful. Give it a try. "
-						+ Utils.getAppShareUri().toString();
-				ShareCompat.IntentBuilder
-						.from(this)
-						.setText(shareText)
-						.setType("text/plain")
-						.setChooserTitle("Share AnExplorer")
-						.startChooser();
-				AnalyticsManager.logEvent("app_share");
-				break;
-		}
-	}
+                String shareText = "I found this file mananger very useful. Give it a try. "
+                        + Utils.getAppShareUri().toString();
+                ShareCompat.IntentBuilder
+                        .from(this)
+                        .setText(shareText)
+                        .setType("text/plain")
+                        .setChooserTitle("Share AnExplorer")
+                        .startChooser();
+                AnalyticsManager.logEvent("app_share");
+                break;
+            default:
+        }
+    }
 
-	public void setUpDefaultStatusBar() {
-		int color = Utils.getStatusBarColor(SettingsActivity.getPrimaryColor());
-		if(Utils.hasLollipop()){
-			getWindow().setStatusBarColor(color);
-		}
-		else if(Utils.hasKitKat()){
-			SystemBarTintManager systemBarTintManager = new SystemBarTintManager(this);
-			systemBarTintManager.setTintColor(Utils.getStatusBarColor(color));
-			systemBarTintManager.setStatusBarTintEnabled(true);
-		}
-	}
+    public void setUpDefaultStatusBar() {
+        int color = Utils.getStatusBarColor(SettingsActivity.getPrimaryColor());
+        if (Utils.hasLollipop()) {
+            getWindow().setStatusBarColor(color);
+        } else if (Utils.hasKitKat()) {
+            SystemBarTintManager systemBarTintManager = new SystemBarTintManager(this);
+            systemBarTintManager.setTintColor(Utils.getStatusBarColor(color));
+            systemBarTintManager.setStatusBarTintEnabled(true);
+        }
+    }
 }
