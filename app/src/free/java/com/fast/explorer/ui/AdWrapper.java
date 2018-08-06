@@ -55,7 +55,7 @@ public class AdWrapper extends FrameLayout {
     }
 
     public void initInterstitialAd(){
-        mInterstitialAd.setAdUnitId("ca-app-pub-6407484780907805/9134520474");
+//        mInterstitialAd.setAdUnitId("ca-app-pub-6407484780907805/9134520474");
         requestNewInterstitial();
     }
 
@@ -123,13 +123,13 @@ public class AdWrapper extends FrameLayout {
         @Override
         public void onAdLoaded() {
             super.onAdLoaded();
-            mAdView.setVisibility(View.VISIBLE);
+//            mAdView.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onAdFailedToLoad(int errorCode) {
             super.onAdFailedToLoad(errorCode);
-            mAdView.setVisibility(View.GONE);
+//            mAdView.setVisibility(View.GONE);
         }
     };
 }

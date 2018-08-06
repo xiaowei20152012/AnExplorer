@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
         secondayStorageStats = (HomeItem) view.findViewById(R.id.seconday_storage_stats);
         usbStorageStats = (HomeItem) view.findViewById(R.id.usb_storage_stats);
         memoryStats = (HomeItem) view.findViewById(R.id.memory_stats);
-        recents = (TextView)view.findViewById(R.id.recents);
+        recents = (TextView) view.findViewById(R.id.recents);
         recents_container = view.findViewById(R.id.recents_container);
 
         mShortcutsRecycler = (RecyclerView) view.findViewById(R.id.shortcuts_recycler);
@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
         updateUI();
     }
 
-    public void showData(){
+    public void showData() {
         updateUI();
         showStorage();
         showOtherStorage();
@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment {
         usbStorageStats.updateColor();
     }
 
-    public void reloadData(){
+    public void reloadData() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -187,10 +187,10 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS);
-                    if(Utils.isIntentAvailable(getActivity(), intent)) {
+                    if (Utils.isIntentAvailable(getActivity(), intent)) {
                         getActivity().startActivity(intent);
-                    } else  {
-                        ((DocumentsActivity)getActivity()).showInfo("Coming Soon!");
+                    } else {
+                        ((DocumentsActivity) getActivity()).showInfo("Coming Soon!");
                     }
                     Bundle params = new Bundle();
                     AnalyticsManager.logEvent("storage_analyze", params);
@@ -264,11 +264,11 @@ public class HomeFragment extends Fragment {
                     openRoot(processRoot);
                 }
             });
-            if(currentAvailableBytes != 0) {
+            if (currentAvailableBytes != 0) {
                 long availableBytes = processRoot.availableBytes - currentAvailableBytes;
                 String summaryText = availableBytes <= 0 ? "Already cleaned up!" :
                         getActivity().getString(R.string.root_available_bytes,
-                        Formatter.formatFileSize(getActivity(), availableBytes));
+                                Formatter.formatFileSize(getActivity(), availableBytes));
                 ((DocumentsActivity) getActivity()).showInfo(summaryText);
             }
 
@@ -322,7 +322,7 @@ public class HomeFragment extends Fragment {
             public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
                 if (!isAdded())
                     return;
-                if(null == result.cursor || (null != result.cursor && result.cursor.getCount() == 0)) {
+                if (null == result.cursor || (null != result.cursor && result.cursor.getCount() == 0)) {
                     recents_container.setVisibility(View.GONE);
                 } else {
                     //recents_container.setVisibility(View.VISIBLE);
@@ -398,29 +398,31 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void animateProgress(final HomeItem item, final Timer timer, RootInfo root){
+    private void animateProgress(final HomeItem item, final Timer timer, RootInfo root) {
         try {
             final double percent = (((root.totalBytes - root.availableBytes) / (double) root.totalBytes) * 100);
             item.setProgress(0);
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if(Utils.isActivityAlive(getActivity())){
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (item.getProgress() >= (int) percent) {
-                                    timer.cancel();
-                                } else {
-                                    item.setProgress(item.getProgress() + 1);
-                                }
-                            }
-                        });
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+            if (Utils.isActivityAlive(getActivity())) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (item.getProgress() >= (int) percent) {
+//                            timer.cancel();
+                            item.setProgress((int) percent);
+                        } else {
+                            item.setProgress((int) percent);
+//                            item.setProgress(item.getProgress() + 1);
+                        }
                     }
-                }
-            }, 50, 20);
-        }
-        catch (Exception e){
+                });
+            }
+//                }
+//            }, 50, 20);
+//        }
+        } catch (Exception e) {
             item.setVisibility(View.GONE);
             CrashReportingManager.logException(e);
         }
@@ -430,13 +432,13 @@ public class HomeFragment extends Fragment {
         return ((BaseActivity) fragment.getActivity()).getDisplayState();
     }
 
-    private void openRoot(RootInfo rootInfo){
-        DocumentsActivity activity = ((DocumentsActivity)getActivity());
+    private void openRoot(RootInfo rootInfo) {
+        DocumentsActivity activity = ((DocumentsActivity) getActivity());
         activity.onRootPicked(rootInfo, mHomeRoot);
-        AnalyticsManager.logEvent("open_shortcuts", rootInfo ,new Bundle());
+        AnalyticsManager.logEvent("open_shortcuts", rootInfo, new Bundle());
     }
 
-    public void cleanupMemory(Context context){
+    public void cleanupMemory(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningProcessesList = getRunningAppProcessInfo(context);
         for (ActivityManager.RunningAppProcessInfo processInfo : runningProcessesList) {

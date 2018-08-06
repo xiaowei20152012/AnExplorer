@@ -116,7 +116,7 @@ public class RootsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_roots, container, false);
         proWrapper = view.findViewById(R.id.proWrapper);
         title = view.findViewById(android.R.id.title);
-        if(isTelevision()){
+        if (isTelevision()) {
             title.setVisibility(View.VISIBLE);
         }
         mList = (ExpandableListView) view.findViewById(android.R.id.list);
@@ -133,7 +133,7 @@ public class RootsFragment extends Fragment {
         int leftWidth = width - Utils.dpToPx(leftPadding);
         int rightWidth = width - Utils.dpToPx(rightPadding);
 
-        if(Utils.hasJellyBeanMR2()){
+        if (Utils.hasJellyBeanMR2()) {
             mList.setIndicatorBoundsRelative(leftWidth, rightWidth);
 
         } else {
@@ -145,7 +145,7 @@ public class RootsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(null != savedInstanceState) {
+        if (null != savedInstanceState) {
             group_size = savedInstanceState.getInt(GROUP_SIZE, 0);
             expandedIds = (ArrayList<Long>) savedInstanceState.getSerializable(GROUP_IDS);
         }
@@ -177,7 +177,7 @@ public class RootsFragment extends Fragment {
                 }
 
                 int groupCount = mAdapter.getGroupCount();
-                if(group_size != 0 && group_size == groupCount){
+                if (group_size != 0 && group_size == groupCount) {
                     if (expandedIds != null) {
                         restoreExpandedState(expandedIds);
                     }
@@ -195,7 +195,7 @@ public class RootsFragment extends Fragment {
             @Override
             public void onLoaderReset(Loader<Collection<RootInfo>> loader) {
                 mAdapter = null;
-                mList.setAdapter((RootsExpandableAdapter)null);
+                mList.setAdapter((RootsExpandableAdapter) null);
             }
         };
     }
@@ -209,22 +209,23 @@ public class RootsFragment extends Fragment {
         state.showAdvanced = state.forceAdvanced
                 | SettingsActivity.getDisplayAdvancedDevices(context);
         state.rootMode = SettingsActivity.getRootMode(getActivity());
-        
+
         if (state.action == ACTION_BROWSE) {
             mList.setOnItemLongClickListener(mItemLongClickListener);
         } else {
             mList.setOnItemLongClickListener(null);
             mList.setLongClickable(false);
         }
-        if(null != proWrapper) {
-            proWrapper.setVisibility(DocumentsApplication.isPurchased() ? View.GONE : View.VISIBLE);
+        if (null != proWrapper) {
+//            proWrapper.setVisibility(DocumentsApplication.isPurchased() ? View.GONE : View.VISIBLE);
+            proWrapper.setVisibility(View.GONE);
         }
         getLoaderManager().restartLoader(2, null, mCallbacks);
     }
 
     private void changeThemeColor() {
 
-        if(isTelevision()){
+        if (isTelevision()) {
             int color = SettingsActivity.getPrimaryColor(getActivity());
             Drawable colorDrawable = new ColorDrawable(color);
             getView().setBackground(colorDrawable);
@@ -237,7 +238,7 @@ public class RootsFragment extends Fragment {
         final RootInfo root = ((BaseActivity) getActivity()).getCurrentRoot();
         for (int i = 0; i < mAdapter.getGroupCount(); i++) {
             for (int j = 0; j < mAdapter.getChildrenCount(i); j++) {
-                final Object item = mAdapter.getChild(i,j);
+                final Object item = mAdapter.getChild(i, j);
                 if (item instanceof RootItem) {
                     final RootInfo testRoot = ((RootItem) item).root;
                     if (Objects.equal(testRoot, root)) {
@@ -246,7 +247,7 @@ public class RootsFragment extends Fragment {
                             int index = mList.getFlatListPosition(id);
                             //mList.setSelection(index);
                             mList.setItemChecked(index, true);
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             CrashReportingManager.logException(e);
                         }
 
@@ -261,7 +262,7 @@ public class RootsFragment extends Fragment {
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", ri.activityInfo.packageName, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        if(Utils.isIntentAvailable(getActivity(), intent)) {
+        if (Utils.isIntentAvailable(getActivity(), intent)) {
             startActivity(intent);
         }
     }
@@ -273,10 +274,10 @@ public class RootsFragment extends Fragment {
             final BaseActivity activity = BaseActivity.get(RootsFragment.this);
             final Item item = (Item) mAdapter.getChild(groupPosition, childPosition);
             if (item instanceof RootItem) {
-                    int index = parent.getFlatListPosition(ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
+                int index = parent.getFlatListPosition(ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
                 parent.setItemChecked(index, true);
                 RootInfo rootInfo = ((RootItem) item).root;
-                if(RootInfo.isProFeature(rootInfo) && !DocumentsApplication.isPurchased()){
+                if (RootInfo.isProFeature(rootInfo) && !DocumentsApplication.isPurchased()) {
                     DocumentsApplication.openPurchaseActivity(activity);
                     return false;
                 }
@@ -300,7 +301,7 @@ public class RootsFragment extends Fragment {
             int childPosition;
             int groupPosition;
 
-            if ( itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                 childPosition = ExpandableListView.getPackedPositionChild(id);
                 groupPosition = ExpandableListView.getPackedPositionGroup(id);
                 final Item item = (Item) mAdapter.getChild(groupPosition, childPosition);
@@ -308,13 +309,13 @@ public class RootsFragment extends Fragment {
                     showAppDetails(((AppItem) item).info);
                     return true;
                 } else if (item instanceof BookmarkItem) {
-                    removeBookark((BookmarkItem)item);
+                    removeBookark((BookmarkItem) item);
                     return true;
-                }  else {
+                } else {
                     return false;
                 }
 
-            } else if(itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+            } else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                 groupPosition = ExpandableListView.getPackedPositionGroup(id);
                 return false;
 
@@ -341,22 +342,22 @@ public class RootsFragment extends Fragment {
     private void removeBookark(final BookmarkItem item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Remove bookmark?")
-        .setCancelable(false)
-        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int did) {
-                dialog.dismiss();
-                int rows = getActivity().getContentResolver().delete(ExplorerProvider.buildBookmark(),
-                        ExplorerProvider.BookmarkColumns.PATH + " = ? AND " +
-                                ExplorerProvider.BookmarkColumns.TITLE + " = ? ",
-                        new String[]{item.root.path, item.root.title}
-                );
-                if (rows > 0) {
-                    ((BaseActivity) getActivity()).showInfo("Bookmark removed");
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int did) {
+                        dialog.dismiss();
+                        int rows = getActivity().getContentResolver().delete(ExplorerProvider.buildBookmark(),
+                                ExplorerProvider.BookmarkColumns.PATH + " = ? AND " +
+                                        ExplorerProvider.BookmarkColumns.TITLE + " = ? ",
+                                new String[]{item.root.path, item.root.title}
+                        );
+                        if (rows > 0) {
+                            ((BaseActivity) getActivity()).showInfo("Bookmark removed");
 
-                    RootsCache.updateRoots(getActivity(), ExternalStorageProvider.AUTHORITY);
-                }
-            }
-        }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            RootsCache.updateRoots(getActivity(), ExternalStorageProvider.AUTHORITY);
+                        }
+                    }
+                }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int did) {
                 dialog.dismiss();
             }
@@ -436,11 +437,12 @@ public class RootsFragment extends Fragment {
             title.setText(root.title);
 
             // Show available space if no summary
-            if(root.isNetworkStorage()) {
+            if (root.isNetworkStorage()) {
                 String summaryText = root.summary;
                 summary.setText(summaryText);
                 summary.setVisibility(TextUtils.isEmpty(summaryText) ? View.GONE : View.VISIBLE);
-            } if(root.isCloudStorage()) {
+            }
+            if (root.isCloudStorage()) {
                 String summaryText = root.summary;
                 summary.setText(summaryText);
                 summary.setVisibility(TextUtils.isEmpty(summaryText) ? View.GONE : View.VISIBLE);
@@ -522,8 +524,8 @@ public class RootsFragment extends Fragment {
         if (adapter != null) {
             int length = adapter.getGroupCount();
             ArrayList<Long> expandedIds = new ArrayList<Long>();
-            for(int i=0; i < length; i++) {
-                if(list.isGroupExpanded(i)) {
+            for (int i = 0; i < length; i++) {
+                if (list.isGroupExpanded(i)) {
                     expandedIds.add(adapter.getGroupId(i));
                 }
             }
@@ -539,7 +541,7 @@ public class RootsFragment extends Fragment {
             ExpandableListView list = mList;
             ExpandableListAdapter adapter = mAdapter;
             if (adapter != null) {
-                for (int i=0; i<adapter.getGroupCount(); i++) {
+                for (int i = 0; i < adapter.getGroupCount(); i++) {
                     long id = adapter.getGroupId(i);
                     if (expandedIds.contains(id)) list.expandGroup(i);
                 }

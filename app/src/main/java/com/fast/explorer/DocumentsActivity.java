@@ -238,8 +238,8 @@ public class DocumentsActivity extends BaseActivity {
 
         setSupportActionBar(mToolbar);
 
-        mRootsContainer = findViewById(com.fast.explorer.R.id.drawer_roots);
-        mInfoContainer = findViewById(com.fast.explorer.R.id.container_info);
+        mRootsContainer = findViewById(R.id.drawer_roots);
+        mInfoContainer = findViewById(R.id.container_info);
 
         if (!mShowAsDialog) {
             // Non-dialog means we have a drawer
